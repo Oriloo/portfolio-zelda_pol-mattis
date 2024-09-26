@@ -1,0 +1,168 @@
+/* https://zeldauniverse.net/media/fonts/ */
+@font-face {
+    font-family: 'Zelda-BOTW';
+    src: url('polices/The Wild Breath of Zelda.otf') format('opentype');
+}
+@font-face {
+	font-family: 'Hylia-Serif';
+	src: url('polices/HyliaSerifBeta-Regular.otf') format('opentype');
+}
+@font-face {
+	font-family: 'Sheikah-BOTW';
+	src: url('polices/BotW_Sheikah.ttf') format('opentype');
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	cursor: default;
+	list-style: none;
+	text-decoration: none;
+}
+
+html, body {
+	background-color: #121423;
+	max-width: 100vw;
+	min-height: 100vh;
+}
+
+/** Polices **/
+.zelda-font {
+	font-family: 'Zelda-BOTW', sans-serif;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em
+}
+.hylia-font {
+	font-family: 'Hylia-Serif', sans-serif;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em
+}
+.sheikah-font {
+	font-family: 'Sheikah-BOTW', sans-serif;
+	color: white;
+	text-shadow: black 0.1em 0.1em 0.2em
+}
+.zelda-h1 { font-size: 10vw; }
+.zelda-h2 { font-size: 5vw; }
+.zelda-a1 { font-size: 1.5vw; }
+.zelda-a2 { font-size: 0.8vw; }
+
+/**  **/
+.espace1 {
+	width: 100vw;
+	height: 20vw;
+}
+.fenetre {
+	width: 100vw;
+	height: calc(100vw/16 * 7.8);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	position: relative;
+}
+
+/** Image de fond **/
+.image-fond {
+	position: relative;
+	width: 90vw;
+	aspect-ratio: 16/9;
+	background-image: url('https://via.placeholder.com/1920x1080');
+	background-size: cover;
+	background-repeat: no-repeat;
+	overflow: hidden;
+}
+.image-fond::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	/* Ajout du grain */
+	background-image: url('images/noise-pattern.jpg');
+	opacity: 0.3;
+}
+.masque-parchemin {
+	mask-image: url('images/masque-parchemin.svg');
+	mask-size: cover;
+	mask-repeat: no-repeat;
+	/* Préfixes pour la compatibilité avec certains navigateurs */
+	-webkit-mask-image: url('images/masque-parchemin.svg');
+	-webkit-mask-size: cover;
+	-webkit-mask-repeat: no-repeat;
+}
+
+/** Infos **/
+.infos {
+	position: absolute;
+	top: 7vw;
+	left: 14vw;
+	width: calc(100vw - 2*14vw);
+}
+
+/** Titre **/
+.h-nom-prenom {
+	position: relative;
+	width: 100%;
+}
+.h-nom {
+	position: absolute;
+	left: 50%;
+	transform: translate(-50%, -20%);
+}
+.h-prenom {
+	position: absolute;
+	left: 50%;
+	transform: translate(-45%, 90%);
+}
+
+/** Menu **/
+.liste-nav {
+	margin-top: 14vw;
+	display: flex;
+	justify-content: center;
+}
+.menu-navigation a li {
+	cursor: pointer;
+	width: 18vw;
+	height: 5vw;
+	margin: 0vw;
+	div { cursor: pointer; }
+	.txt-sheikah { display: none; }
+
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+
+	&:hover, &.active {
+		background-image: url('images/select-menu.png');
+		background-size: contain;
+		background-repeat: no-repeat;
+		background-position: center center;
+		.txt-sheikah { display: block; }
+	}
+}
+
+/** personnages **/
+#image-perso {
+	position: absolute;
+	bottom: 2vw;
+	right: 4.6vw;
+	height: 35vw;
+	aspect-ratio: 1/1;
+	background-image: url('images/heros-link1.png');
+	background-size: contain;
+	background-repeat: no-repeat;
+	background-position: right bottom;
+	transform: translateX(0);
+}
+.animate-arriver-droite {
+	animation-duration: 0.5s;
+	animation-fill-mode: forwards;
+	animation-name: ArriverDroite;
+}
+@keyframes ArriverDroite {
+	from { transform: translateX(100%); }
+	to { transform: translateX(0); }
+}
