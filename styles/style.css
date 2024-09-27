@@ -10,6 +10,7 @@ html, body {
 	background-color: #121423;
 	max-width: 100vw;
 	min-height: 100vh;
+	overflow-x: hidden;
 }
 
 /**  **/
@@ -138,11 +139,20 @@ html, body {
 	bottom: 5vw;
 	left: 3.9vw;
 	height: 25vw;
-	width: 30vw;
+	width: 25vw;
 
 	background-color: rgba(0, 0, 0, 0.8);
 	border: rgba(0, 0, 0, 0.8) solid 0.15vw;
 	box-shadow: 0 0 0 0.08vw rgba(165, 165, 150, 0.8) inset;
 	box-sizing: border-box;
 	border-radius: 0.3vw;
+}
+.text-info {
+	margin: 2vw 0 0 4vw;
+}
+.ligne-separatrice {
+	background-color: rgba(165, 165, 150, 0.8);
+	width: 80%;
+	height: 0.1vw;
+	margin: 0.5vw 0;
 }

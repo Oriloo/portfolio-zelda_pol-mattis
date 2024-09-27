@@ -1,0 +1,38 @@
+.double-carousel-logos {
+	padding: 4vw 0;
+}
+
+.carousel-logos {
+	width: 100%;
+	display: flex;
+	will-change: transform;
+	> * { flex: 0 0 100%; }
+	&:hover .group { animation-play-state: paused; }
+}
+
+.carousel-l {
+	animation: scrolling-l 60s linear infinite;
+	padding-bottom: 0.5vw;
+}
+.carousel-r {
+	animation: scrolling-r 60s linear infinite;
+	padding-top: 0.5vw;
+}
+
+.card-logo img {
+	width: 3vw;
+	padding: 0 1.5vw;
+	aspect-ratio: 1/1;
+	filter: invert(1);
+}
+
+.group-logos { display: flex; }
+
+@keyframes scrolling-l {
+	0% { transform: translateX(0); }
+	100% { transform: translateX(calc(-6vw * 56)); }
+}
+@keyframes scrolling-r {
+	0% { transform: translateX(calc(-6vw * 56)); }
+	100% { transform: translateX(0); }
+}

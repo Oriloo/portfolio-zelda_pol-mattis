@@ -8,53 +8,93 @@
 
 	<link rel="stylesheet" type="text/css" href="styles/style.css">
 	<link rel="stylesheet" type="text/css" href="styles/police.css">
+	<link rel="stylesheet" type="text/css" href="styles/slide.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 
 	<div class="fenetre">
-		<div class="image-fond masque-parchemin" style="background-image: url('images/fond2-zelda.jpg')">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_carte-hyrule.webp')">
 			<div id="image-perso"></div>
 			<div class="zone-infos">
-				<div id="infos-1"></div>
-				<div id="infos-2"></div>
-				<div id="infos-3"></div>
-				<div id="infos-4"></div>
-				<div id="infos-5"></div>
+				<div id="infos-prof">
+					<div class="text-info">
+						<p class="bold-font font-4">Dév informatique</p>
+						<div class="ligne-separatrice"></div>
+						<p class="light-font font-5">Je suis là et là bas.</p>
+					</div>
+				</div>
+				<div id="infos-comp"></div>
+				<div id="infos-proj"></div>
+				<div id="infos-apro"></div>
+				<div id="infos-cont"></div>
 			</div>
 		</div>
+
 		<div class="menu-principal">
 			<div class="h-nom-prenom">
-				<h1 class="zelda-font zelda-h1 h-nom">Harquet</h1>
-				<h1 class="zelda-font zelda-h2 h-prenom">Pol-Mattis</h1>
+				<h1 class="zelda-font font-1 h-nom">Harquet</h1>
+				<h1 class="zelda-font font-2 h-prenom">Pol-Mattis</h1>
 			</div>
 			<div class="liste-nav">
 				<menu class="menu-navigation">
 					<a href="#"><li class="active">
-						<div class="hylia-font zelda-a1">A propos</div>
-						<div class="txt-sheikah sheikah-font zelda-a2">a-propos</div>
+						<div class="hylia-font font-4">Profil</div>
+						<div class="txt-sheikah sheikah-font font-6">profil</div>
 					</li></a>
 					<a href="#"><li>
-						<div class="hylia-font zelda-a1">Profil</div>
-						<div class="txt-sheikah sheikah-font zelda-a2">profil</div>
+						<div class="hylia-font font-4">Competences</div>
+						<div class="txt-sheikah sheikah-font font-6">competences</div>
 					</li></a>
 					<a href="#"><li>
-						<div class="hylia-font zelda-a1">Competences</div>
-						<div class="txt-sheikah sheikah-font zelda-a2">competences</div>
+						<div class="hylia-font font-4">Projets</div>
+						<div class="txt-sheikah sheikah-font font-6">projets</div>
 					</li></a>
 					<a href="#"><li>
-						<div class="hylia-font zelda-a1">Projets</div>
-						<div class="txt-sheikah sheikah-font zelda-a2">projets</div>
+						<div class="hylia-font font-4">A propos</div>
+						<div class="txt-sheikah sheikah-font font-6">a-propos</div>
 					</li></a>
 					<a href="#"><li>
-						<div class="hylia-font zelda-a1">Contact</div>
-						<div class="txt-sheikah sheikah-font zelda-a2">contact</div>
+						<div class="hylia-font font-4">Contact</div>
+						<div class="txt-sheikah sheikah-font font-6">contact</div>
 					</li></a>
 				</menu>
 			</div>
 		</div>
 	</div>
 
+	<div class="double-carousel-logos">
+		<div class="carousel-logos carousel-l">
+			<div class="group-logos"></div>
+			<div aria-hidden class="group-logos"></div>
+		</div>
+		<div class="carousel-logos carousel-r">
+			<div class="group-logos"></div>
+			<div aria-hidden class="group-logos"></div>
+		</div>
+	</div>
+
+
+	<div class="fenetre">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_chateau-hyrule.webp')"></div>
+	</div>
+	<div class="fenetre">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_domaine-zora.webp')"></div>
+	</div>
+
+	<div class="fenetre">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_chaine-hebra.webp')"></div>
+	</div>
+
+	<div class="fenetre">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_desert-gerudo.webp')"></div>
+	</div>
+
+	<div class="fenetre">
+		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_montagne-de-la-mort.webp')"></div>
+	</div>
+
 	<script type="text/javascript" src="scripts/menu-jeux.js"></script>
+	<script type="text/javascript" src="scripts/slide.js"></script>
 </body>
 </html>

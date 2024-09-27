@@ -40,18 +40,16 @@
 .light-font {
 	font-family: 'CarvingSoft-Light', sans-serif;
 	color: #A5A596;
-	text-shadow: black 0.1em 0.1em 0.2em
 }
 .bold-font {
 	font-family: 'CarvingSoft-Bold', sans-serif;
 	color: white;
-	text-shadow: black 0.1em 0.1em 0.2em
 }
 
 /* Tailles */
-.zelda-h1 { font-size: 10vw; }
-.zelda-h2 { font-size: 5vw; }
-.zelda-a1 { font-size: 1.5vw; }
-.zelda-a2 { font-size: 0.8vw; }
-.font-p1 { font-size: 2vw; }
-.font-p2 { font-size: 1vw; }
+.font-1 { font-size: 10vw; }
+.font-2 { font-size: 5vw; }
+.font-3 { font-size: 2vw; }
+.font-4 { font-size: 1.5vw; }
+.font-5 { font-size: 1vw; }
+.font-6 { font-size: 0.8vw; }
