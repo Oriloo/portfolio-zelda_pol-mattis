@@ -13,11 +13,12 @@ html, body {
 	overflow-x: hidden;
 }
 
-/**  **/
-.espace1 {
-	width: 100vw;
-	height: 20vw;
+.no-interaction {
+    pointer-events: none; /* Désactive tous les événements de clic */
+    touch-action: none; /* Désactive les interactions tactiles */
 }
+
+/**  **/
 .fenetre {
 	width: 100vw;
 	height: calc(100vw/16 * 7.8);
