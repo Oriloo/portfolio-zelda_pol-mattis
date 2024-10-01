@@ -1,0 +1,64 @@
+.contact-contact {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Adjust overall container to be two-column like the game menu */
+.contact-links {
+  width: 60vw;
+  background-color: rgba(0, 0, 0, 0.5); /* Darker background similar to the menu */
+  border-radius: 0.5vw;
+  padding: 2vw;
+  margin: auto;
+}
+
+.contact-switch {
+  display: flex;
+}
+
+/* Style for the left section that holds contact links */
+.contact-liens-l, .contact-liens-r {
+  width: 15vw;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Links styled to look like menu buttons */
+.contact-liens-l a, .contact-liens-r a {
+  background-color: rgb(255, 255, 255);
+  color: black;
+  height: 2vw;
+  padding: 1vw;
+  margin-bottom: 1vw;
+  border-radius: 0.2vw;
+  text-decoration: none;
+  transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  span { margin: 0 0.5vw; }
+  &, span, svg, path { cursor: pointer; }
+  &:hover { background-color: rgba(255, 255, 255, 0.5); }
+}
+.contact-liens-l a { justify-content: right; }
+.contact-liens-r a { justify-content: left; }
+
+/* Contact title styling to mimic the game title style */
+.contact-titre {
+  width: 100%;
+  padding: 0.5vw 0;
+  text-align: center;
+  p { color: white; }
+}
+
+/* Styling for the right side, where the Switch image will go */
+.contact-image {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.contact-image img {
+  width: 30vw;
+}
