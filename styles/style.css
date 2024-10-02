@@ -228,3 +228,104 @@ html, body {
 	height: 0.1vw;
 	margin: 0.5vw 0;
 }
+
+
+
+
+@media only screen and (max-width: 769px) {
+
+  /* Général */
+  html, body {
+    width: 100vw;
+    height: 100vh;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+  }
+
+  /* Bouton Home */
+  #home {
+    top: 4vh;
+    left: 4vh;
+  }
+
+  /* Fenêtre principale : format 9/16 en fonction de la hauteur */
+  .fenetre {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .sur-fenetre {
+    width: 45vh; /* Basé sur la hauteur de l'écran */
+    aspect-ratio: 9/16; /* Modification du ratio pour mobile */
+  }
+
+  .space-between-win {
+    height: 10vh; /* Espacement basé sur la hauteur */
+  }
+
+  /* Image de fond avec aspect ratio 9/16 */
+  .image-fond {
+    width: 100vw;
+    height: 100vh;
+    aspect-ratio: 9/16; /* Adaptation au format portrait */
+    background-size: cover;
+    background-repeat: no-repeat;
+    position: relative;
+  }
+
+  .image-fond::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../images/noise-pattern.jpg');
+    opacity: 0.3; /* Grain de l'image conservé */
+  }
+
+  /* Masque en 9/16 sans dégradation */
+  .masque-parchemin {
+    mask-image: url('../images/masque-parchemin.svg');
+    mask-size: 100% 100%; /* S'adapte parfaitement au conteneur */
+    mask-repeat: no-repeat;
+    -webkit-mask-image: url('../images/masque-parchemin.svg');
+    -webkit-mask-size: 100% 100%; /* Assure la compatibilité avec Safari */
+    -webkit-mask-repeat: no-repeat;
+    width: 100%;
+    height: 100vh; /* Basé sur la hauteur de l'écran */
+  }
+
+  /* Menu principal */
+  .menu-principal {
+    top: 10vh;
+    left: 5vh;
+    width: calc(100vw - 2 * 5vh); /* Ajusté selon la hauteur */
+  }
+
+  /* Titre (nom et prénom) */
+  .h-nom-prenom {
+    width: 100%;
+    padding: 0 5vh;
+  }
+
+  .h-nom, .h-prenom {
+	left: 40%;
+  }
+
+  /* Liste de navigation */
+  .liste-nav {
+    margin-top: 20vh;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .menu-navigation a li {
+    width: 80vw;
+    height: 10vh;
+  }
+
+  #image-perso, .zone-infos {
+    display: none;
+  }
+}

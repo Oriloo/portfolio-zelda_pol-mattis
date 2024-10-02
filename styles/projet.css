@@ -15,6 +15,7 @@
 }
 
 .carousel-item {
+    height: 20vw;
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transform: scale(0.8);
     transition: transform 0.5s ease-in-out, margin 0.5s ease-in-out;
@@ -49,23 +50,24 @@
 /* card projet */
 .repo-card {
     width: 15vw;
-    min-height: 20vw;
     background-color: #e5d5b0;
-    border-radius: 15px;
-    padding: 20px;
+    border-radius: 2vw;
+    padding: 3vw;
     box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
     text-align: center;
     font-family: 'Arial', sans-serif;
     position: relative;
+    overflow: hidden;
 }
 
 .new-badge {
     position: absolute;
-    top: 10px;
-    left: 10px;
+    top: 1vw;
+    left: -3vw;
+    rotate: -45deg;
     background-color: #b94019;
     color: white;
-    padding: 5px 10px;
+    padding: 0.5vw 5vw;
     font-size: 12px;
     border-radius: 5px;
 }
