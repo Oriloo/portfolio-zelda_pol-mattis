@@ -1,0 +1,138 @@
+.carousel-container {
+    position: relative;
+    width: 90%;
+    height: 100%;
+    margin: 0 auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+}
+
+.carousel {
+    display: flex;
+    transition: transform 0.5s ease-in-out;
+    transform-style: preserve-3d;
+}
+
+.carousel-item {
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transform: scale(0.8);
+    transition: transform 0.5s ease-in-out, margin 0.5s ease-in-out;
+    opacity: 0.6;
+}
+
+.carousel-item.active {
+    transform: scale(1.2);
+    opacity: 1;
+    margin: 0 4vw;
+}
+
+.prev-btn, .next-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 50%;
+    z-index: 100;
+}
+.prev-btn { left: 2vw; }
+.next-btn { right: 2vw; }
+
+.prev-btn:hover, .next-btn:hover {
+    background-color: #555;
+}
+
+/* card projet */
+.repo-card {
+    width: 15vw;
+    min-height: 20vw;
+    background-color: #e5d5b0;
+    border-radius: 15px;
+    padding: 20px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    text-align: center;
+    font-family: 'Arial', sans-serif;
+    position: relative;
+}
+
+.new-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    background-color: #b94019;
+    color: white;
+    padding: 5px 10px;
+    font-size: 12px;
+    border-radius: 5px;
+}
+
+.repo-number {
+    font-size: 20px;
+    color: #555;
+    margin-bottom: 10px;
+}
+
+.repo-title {
+    font-size: 1.5rem;
+    color: #333;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.repo-image {
+    width: 120px;
+    height: 120px;
+    object-fit: cover;
+    margin: 10px auto;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.repo-description {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 15px;
+}
+
+.ingredients {
+    font-weight: bold;
+    margin: 15px 0;
+    font-size: 1.2rem;
+}
+
+.repo-stats {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+.stat {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 1rem;
+}
+
+.stat img {
+    width: 20px;
+    height: 20px;
+}
+
+.repo-link {
+    display: inline-block;
+    margin-top: 20px;
+    background-color: #0366d6;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.repo-link:hover {
+    background-color: #024ea1;
+}
