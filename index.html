@@ -10,11 +10,13 @@
 	<link rel="stylesheet" type="text/css" href="styles/slide.css">
 	<link rel="stylesheet" type="text/css" href="styles/contact.css">
 	<link rel="stylesheet" type="text/css" href="styles/projet.css">
+	<link rel="stylesheet" type="text/css" href="styles/card-repo.css">
 	<script type="text/javascript" src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 </head>
 <body>
 	<a id="home" class="bold-font font-4" href="#win-menu">Home</a>
 
+	<!-- 1er partie - MENU -->
 	<div id="win-menu" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_carte-hyrule.webp')">
 			<div id="image-perso"></div>
@@ -65,6 +67,7 @@
 		</div>
 	</div>
 
+	<!-- 1.5e partie - CAROUSEL LOGO -->
 	<div class="double-carousel-logos">
 		<div class="carousel-logos carousel-l">
 			<div class="group-logos"></div>
@@ -76,17 +79,22 @@
 		</div>
 	</div>
 
+	<!-- 2e partie - PROFIL -->
 	<div id="win-prof" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_chateau-hyrule.webp')"></div>
 		<div class="sur-fenetre">
 		</div>
 	</div>
+
+	<!-- 3e partie - COMPETENCE -->
 	<div class="space-between-win"></div>
 	<div id="win-comp" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_domaine-zora.webp')"></div>
 		<div class="sur-fenetre">
 		</div>
 	</div>
+
+	<!-- 4e partie - PROJET -->
 	<div class="space-between-win"></div>
 	<div id="win-proj" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_chaine-hebra.webp')">
@@ -107,12 +115,16 @@
 			</div>
 		</div>
 	</div>
+
+	<!-- 5e partie - A PROPOS -->
 	<div class="space-between-win"></div>
 	<div id="win-apro" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_desert-gerudo.webp')"></div>
 		<div class="sur-fenetre">
 		</div>
 	</div>
+
+	<!-- 6e partie - CONTACT -->
 	<div class="space-between-win"></div>
 	<div id="win-cont" class="fenetre">
 		<div class="image-fond masque-parchemin" style="background-image: url('images/botw_montagne-de-la-mort.webp')"></div>
@@ -138,32 +150,11 @@
 		</div>
 	</div>
 
+	<!-- partie script -->
 	<script type="text/javascript" src="scripts/repo-github.js"></script>
 	<script type="text/javascript" src="scripts/carousel.js"></script>
 	<script type="text/javascript" src="scripts/menu-jeux.js"></script>
 	<script type="text/javascript" src="scripts/slide.js"></script>
-	<script type="text/javascript">
-	$(document).ready(function(){
-		$('a[href^="#"]').on('click', function(e) {
-			e.preventDefault();  // Empêche le comportement par défaut du lien
-
-			var target = this.hash;  // Récupère l'ID de la cible
-			var $target = $(target);
-
-			// Désactiver les interactions en ajoutant la classe no-interaction au body
-			$('body').addClass('no-interaction');
-
-			// Scroll automatique
-			$('html, body').stop().animate({
-				'scrollTop': $target.offset().top
-			}, 1000, 'swing', function () {
-				window.location.hash = target;  // Change l'URL pour correspondre à l'ID
-				
-				// Réactiver les interactions après le scroll
-				$('body').removeClass('no-interaction');
-			});
-		});
-	});
-	</script>
+	<script type="text/javascript" src="scripts/auto-scroll.js"></script>
 </body>
 </html>
