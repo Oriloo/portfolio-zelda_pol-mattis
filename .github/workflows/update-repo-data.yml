@@ -2,7 +2,7 @@ name: Update Repository Data
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Exécution tous les jours à 0h00 UTC
+    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
@@ -33,9 +33,11 @@ jobs:
           ls -l repos.json  # Vérifier que le fichier est bien créé
           cat repos.json    # Afficher le contenu
 
-      # Étape 4: Afficher la taille du fichier repos.json
-      - name: Afficher la taille du fichier repos.json
-        run: ls -lh repos.json
+      # Étape 4: Vérifier l'état de repos.json
+      - name: Vérifier l'état de repos.json
+        run: |
+          ls -lh repos.json
+          cat repos.json
 
       # Étape 5: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
