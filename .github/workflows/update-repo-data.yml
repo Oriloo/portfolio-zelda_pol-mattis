@@ -28,13 +28,13 @@ jobs:
             git checkout -b test-workflows
           fi
 
-      - name: Check if curl is installed
+      - name: Check if jq is installed
         run: |
-          if ! command -v curl &> /dev/null; then
-            echo "curl n'est pas installé. Installation de curl..."
-            sudo apt-get update && sudo apt-get install -y curl
+          if ! command -v jq &> /dev/null; then
+            echo "jq n'est pas installé. Installation de jq..."
+            sudo apt-get update && sudo apt-get install -y jq
           else
-            echo "curl est déjà installé."
+            echo "jq est déjà installé."
           fi
 
       - name: Fetch repository data
