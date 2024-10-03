@@ -31,18 +31,24 @@ jobs:
           ls -lh $GITHUB_WORKSPACE/repos.json
           cat $GITHUB_WORKSPACE/repos.json
 
-      # Étape 4: Vérifier repos.json avant le commit
-      - name: Vérifier repos.json avant le commit
+      # Étape 4: Modifier repos.json avec un timestamp
+      - name: Modifier repos.json avec un timestamp
         run: |
-          ls -lh $GITHUB_WORKSPACE/repos.json
+          echo "Dernière mise à jour: $(date)" >> $GITHUB_WORKSPACE/repos.json
           cat $GITHUB_WORKSPACE/repos.json
 
-      # Étape 5: Commit et push des données (avec ajout forcé)
+      # Étape 5: Vérifier les changements détectés par Git
+      - name: Vérifier les changements détectés par Git
+        run: |
+          git status
+          git diff repos.json
+
+      # Étape 6: Commit et push des données
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           cd $GITHUB_WORKSPACE
-          git add -f repos.json  # Forcer l'ajout du fichier
-          git commit -m "Mise à jour des données des dépôts"
+          git add repos.json
+          git commit --allow-empty -m "Mise à jour des données des dépôts"
           git push origin test-workflows
