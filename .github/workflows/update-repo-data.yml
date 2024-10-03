@@ -17,29 +17,22 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Étape 2: Vérifier le quota de l'API
-      - name: Check API rate limit
-        run: |
-          curl -H "Authorization: token ${{ secrets.PAT_GITHUB }}" https://api.github.com/rate_limit
+      # Étape 2: Vérifier les permissions du répertoire de travail
+      - name: Vérifier les permissions du répertoire de travail
+        run: ls -ld $(pwd)
 
-      # Étape 3: Récupérer les données et écrire dans repos.json avec tee
+      # Étape 3: Récupérer les données et écrire dans repos.json avec redirection directe
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public | tee repos.json
+            https://api.github.com/user/repos?per_page=100&type=public > repos.json
           sleep 2  # Pause pour s'assurer que tout est bien écrit
           ls -l repos.json  # Vérifier que le fichier est bien créé
           cat repos.json    # Afficher le contenu
 
-      # Étape 4: Vérifier l'état de repos.json
-      - name: Vérifier l'état de repos.json
-        run: |
-          ls -lh repos.json
-          cat repos.json
-
-      # Étape 5: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
+      # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
