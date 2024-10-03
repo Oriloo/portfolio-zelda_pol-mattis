@@ -3,7 +3,7 @@ name: Update Repository Data
 # Ce workflow s'exécute à une heure régulière et peut aussi être déclenché manuellement
 on:
   schedule:
-    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris en été
+    - cron: '0 0 * * *'  # Exécution tous les jours à 0h00 UTC
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
@@ -17,18 +17,20 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Étape 2: Récupérer la liste de tous les dépôts de l'utilisateur
+      # Étape 2: Vérifier le quota de l'API
+      - name: Check rate limit
+        run: |
+          curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/rate_limit
+
+      # Étape 3: Récupérer la liste de tous les dépôts de l'utilisateur et afficher la réponse
       - name: Fetch repository data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utilise le token GitHub Actions pour authentifier l'API
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          # Obtenir les informations de tous les dépôts publics et privés
+          # Obtenir les informations de tous les dépôts publics et privés et afficher la réponse brute
           curl -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/user/repos?per_page=100&type=public > repos.json
-
-      # Étape 3: Vérifier si le fichier JSON est bien généré
-      - name: Vérifier les fichiers générés
-        run: ls -alh
+          cat repos.json  # Afficher le contenu du fichier JSON pour vérifier
 
       # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
@@ -37,4 +39,4 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git add repos.json
           git commit -m "Mise à jour des données des dépôts"
-          git push origin test-workflows  # Push sur la branche test-workflows
+          git push origin test-workflows
