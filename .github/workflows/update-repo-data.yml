@@ -49,6 +49,10 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           cd $GITHUB_WORKSPACE
-          git add repos.json
-          git commit --allow-empty -m "Mise à jour des données des dépôts"
+          git add repos.json  # Forcer l'ajout du fichier modifié
+          git commit -m "Mise à jour des données des dépôts"
           git push origin test-workflows
+
+      # Étape 7: Vérifier l'index de Git après `git add`
+      - name: Vérifier l'index de Git après `git add`
+        run: git status
