@@ -6,7 +6,9 @@ on:
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
-  contents: write  # Donne au GITHUB_TOKEN les permissions d'écriture
+  contents: read
+  contents: write
+  issues: read
 
 jobs:
   update-repo-data:
@@ -19,18 +21,21 @@ jobs:
       # Étape 2: Vérifier le quota de l'API
       - name: Check API rate limit
         run: |
-          curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/rate_limit
+          curl -H "Authorization: token ${{ secrets.PAT_GITHUB }}" https://api.github.com/rate_limit
 
-      # Étape 3: Tester la récupération des données de l'API
+      # Étape 3: Récupérer la liste de tous les dépôts de l'utilisateur
       - name: Fetch repository data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
-          # Afficher la réponse brute de l'API GitHub
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public
+            https://api.github.com/user/repos?per_page=100&type=public > repos.json
 
-      # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
+      # Étape 4: Afficher le contenu de repos.json
+      - name: Afficher le contenu de repos.json
+        run: cat repos.json
+
+      # Étape 5: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
