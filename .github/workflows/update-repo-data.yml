@@ -21,18 +21,21 @@ jobs:
       - name: Vérifier les permissions du répertoire de travail
         run: ls -ld $(pwd)
 
-      # Étape 3: Récupérer les données et écrire dans repos.json avec redirection directe
-      - name: Fetch repository data
+      # Étape 3: Récupérer les données et écrire dans /tmp/repos.json
+      - name: Fetch repository data dans /tmp
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public > repos.json
-          sleep 2  # Pause pour s'assurer que tout est bien écrit
-          ls -l repos.json  # Vérifier que le fichier est bien créé
-          cat repos.json    # Afficher le contenu
+            https://api.github.com/user/repos?per_page=100&type=public > /tmp/repos.json
+          ls -l /tmp/repos.json  # Vérifier que le fichier est bien créé
+          cat /tmp/repos.json    # Afficher le contenu
 
-      # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
+      # Étape 4: Copier repos.json dans le répertoire de travail
+      - name: Copier repos.json dans le répertoire de travail
+        run: cp /tmp/repos.json $GITHUB_WORKSPACE/repos.json
+
+      # Étape 5: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
