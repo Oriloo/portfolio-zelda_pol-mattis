@@ -13,29 +13,64 @@ jobs:
   update-repo-data:
     runs-on: ubuntu-latest
     steps:
+      # Étape 1: Cloner le dépôt en utilisant le PAT
       - name: Checkout repository
         uses: actions/checkout@v3
+        with:
+          token: ${{ secrets.PAT_GITHUB }}  # Utilisation du PAT pour les opérations Git
+          fetch-depth: 0  # Récupérer tout l'historique
 
-      - name: Fetch repository data dans le répertoire de travail
+      # Étape 2: Créer ou se positionner sur la branche 'test-workflows'
+      - name: Create or switch to 'test-workflows' branch
+        run: |
+          git fetch origin
+          if git show-ref --verify --quiet refs/heads/test-workflows; then
+            git checkout test-workflows
+          else
+            git checkout -b test-workflows
+          fi
+
+      # Étape 3: Récupérer les données depuis l'API GitHub et écrire dans 'repos.json'
+      - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public > $GITHUB_WORKSPACE/repos.json
-          ls -lh $GITHUB_WORKSPACE/repos.json
-          cat $GITHUB_WORKSPACE/repos.json  # Vérifier le contenu du fichier après récupération
+            https://api.github.com/user/repos?per_page=100&type=public > repos.json
+          ls -lh repos.json
+          cat repos.json
 
-      # Ajouter un timestamp dans repos.json
-      - name: Modifier repos.json avec un timestamp
+      # Étape 4: Modifier 'repos.json' avec un timestamp pour forcer Git à détecter les changements
+      - name: Modify repos.json with timestamp
         run: |
-          echo "Dernière mise à jour: $(date)" >> $GITHUB_WORKSPACE/repos.json
-          cat $GITHUB_WORKSPACE/repos.json  # Vérifier après ajout du timestamp
+          echo "Dernière mise à jour: $(date)" >> repos.json
+          ls -lh repos.json
+          cat repos.json
 
-      # Commit et push des données
-      - name: Commit repository data
+      # Étape 5: Vérifier les changements détectés par Git
+      - name: Verify Git changes
+        run: |
+          git status
+          git diff repos.json
+
+      # Étape 6: Ajouter le fichier modifié à l'index Git
+      - name: Add repos.json to Git
+        run: |
+          git add repos.json
+          git status  # Vérifier que repos.json est bien ajouté
+
+      # Étape 7: Configurer Git avec un utilisateur valide
+      - name: Configure Git
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
-          git add repos.json
+
+      # Étape 8: Commit les changements
+      - name: Commit changes
+        run: |
           git commit -m "Mise à jour des données des dépôts"
+
+      # Étape 9: Push les changements vers la branche 'test-workflows'
+      - name: Push changes
+        run: |
           git push origin test-workflows
