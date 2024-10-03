@@ -41,10 +41,15 @@ jobs:
       # Ajouter un timestamp correctement sans écraser le fichier
       - name: Add timestamp to repos.json
         run: |
-          # Lire le contenu actuel du fichier JSON
-          current_content=$(cat repos.json)
-          # Ajouter le timestamp au contenu existant
-          echo "${current_content}" | jq --arg date "$(date)" '. + {"last_updated": $date}' > repos.json
+          # Vérifier si le fichier JSON contient des données
+          if [ -s repos.json ]; then
+            echo "Le fichier repos.json contient des données, ajout du timestamp."
+            # Ajouter le timestamp au contenu existant
+            current_content=$(cat repos.json)
+            echo "${current_content}" | jq --arg date "$(date)" '. + {"last_updated": $date}' > repos.json
+          else
+            echo "Erreur : Le fichier repos.json est vide. Aucune donnée à mettre à jour."
+          fi
           echo "Contenu de repos.json après ajout du timestamp :"
           cat repos.json
 
