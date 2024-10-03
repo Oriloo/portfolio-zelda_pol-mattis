@@ -22,7 +22,15 @@ jobs:
         run: |
           curl -H "Authorization: token ${{ secrets.PAT_GITHUB }}" https://api.github.com/rate_limit
 
-      # Étape 3: Récupérer la liste de tous les dépôts de l'utilisateur
+      # Étape 3: Afficher la réponse brute de l'API
+      - name: Fetch repository data (test)
+        env:
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+        run: |
+          curl -H "Authorization: token $GITHUB_TOKEN" \
+            https://api.github.com/user/repos?per_page=100&type=public
+
+      # Étape 4: Récupérer les données et écrire dans repos.json
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
@@ -30,11 +38,11 @@ jobs:
           curl -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/user/repos?per_page=100&type=public > repos.json
 
-      # Étape 4: Afficher le contenu de repos.json
+      # Étape 5: Afficher le contenu de repos.json
       - name: Afficher le contenu de repos.json
         run: cat repos.json
 
-      # Étape 5: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
+      # Étape 6: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
