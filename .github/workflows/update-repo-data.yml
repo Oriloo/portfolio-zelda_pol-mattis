@@ -33,10 +33,20 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
+          # Récupérer les données avec curl et capturer les erreurs
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public > repos.json
+            https://api.github.com/user/repos?per_page=100&type=public -o repos.json --fail --silent --show-error
+
+          # Vérifier si le fichier JSON a été correctement rempli
+          if [ -s repos.json ]; then
+            echo "Les données du fichier repos.json ont été correctement récupérées."
+          else
+            echo "Erreur : La récupération des données a échoué ou le fichier est vide."
+            exit 1  # Arrêter l'exécution si la récupération échoue
+          fi
+
           echo "Contenu de repos.json après récupération des données :"
-          cat repos.json  # Vérifier que les données des dépôts sont bien récupérées
+          cat repos.json
 
       # Ajouter un timestamp correctement sans écraser le fichier
       - name: Add timestamp to repos.json
