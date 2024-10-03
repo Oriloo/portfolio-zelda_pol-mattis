@@ -2,11 +2,11 @@ name: Update Repository Data
 
 on:
   schedule:
-    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris en été
+    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
-  contents: write  # Donne au GITHUB_TOKEN les permissions d'écriture
+  contents: write  # Donne au PAT les permissions d'écriture
   issues: read     # Donne accès aux issues du dépôt (si besoin)
 
 jobs:
@@ -20,12 +20,12 @@ jobs:
       # Étape 2: Vérifier le quota de l'API
       - name: Check API rate limit
         run: |
-          curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" https://api.github.com/rate_limit
+          curl -H "Authorization: token ${{ secrets.PAT_GITHUB }}" https://api.github.com/rate_limit
 
       # Étape 3: Récupérer la liste de tous les dépôts de l'utilisateur
       - name: Fetch repository data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/user/repos?per_page=100&type=public > repos.json
