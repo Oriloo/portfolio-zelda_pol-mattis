@@ -32,16 +32,16 @@ jobs:
           ls -l /tmp/repos.json  # Vérifier que le fichier est bien créé
           cat /tmp/repos.json    # Afficher le contenu
 
-      # Étape 4: Upload repos.json as an artifact
+      # Étape 4: Upload repos.json as an artifact (mise à jour à v4)
       - name: Upload repos.json as an artifact
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: repos-data
           path: /tmp/repos.json
 
-      # Étape 5: Download repos.json artifact
+      # Étape 5: Download repos.json artifact (mise à jour à v4)
       - name: Download repos.json artifact
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
           name: repos-data
           path: $GITHUB_WORKSPACE
@@ -51,7 +51,8 @@ jobs:
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
-          git checkout test-workflows  # S'assurer que tu es sur la bonne branche
+          cd $GITHUB_WORKSPACE  # Assurer d'être dans le bon répertoire
+          ls -l repos.json  # Vérifier que le fichier existe dans le bon répertoire
           git add repos.json
-          git commit -m "Mise à jour des données des dépôts"
+          git commit --allow-empty -m "Mise à jour des données des dépôts"
           git push origin test-workflows
