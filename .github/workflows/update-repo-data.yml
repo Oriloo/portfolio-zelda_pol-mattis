@@ -6,6 +6,9 @@ on:
     - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris en été
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
+permissions:
+  contents: write  # Donne au GITHUB_TOKEN les permissions d'écriture
+
 jobs:
   update-repo-data:
     runs-on: ubuntu-latest
@@ -34,4 +37,4 @@ jobs:
           git config --global user.name "GitHub Action Bot"
           git add repos.json
           git commit -m "Mise à jour des données des dépôts"
-          git push origin test-workflows  # Correction avec "s"
+          git push origin test-workflows  # Push sur la branche test-workflows
