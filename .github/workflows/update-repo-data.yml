@@ -28,32 +28,43 @@ jobs:
             git checkout -b test-workflows
           fi
 
-      - name: Check if jq is installed
+      - name: Debug environment and check required tools
         run: |
+          echo "Checking if curl is available..."
+          if ! command -v curl &> /dev/null; then
+            echo "curl is not installed. Installing curl..."
+            sudo apt-get update && sudo apt-get install -y curl
+          else
+            echo "curl is installed."
+          fi
+
+          echo "Checking if jq is available..."
           if ! command -v jq &> /dev/null; then
-            echo "jq n'est pas installé. Installation de jq..."
+            echo "jq is not installed. Installing jq..."
             sudo apt-get update && sudo apt-get install -y jq
           else
-            echo "jq est déjà installé."
+            echo "jq is installed."
           fi
+
+          echo "Environment check complete. Continuing with the workflow."
 
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
-          # Récupérer les données avec curl et capturer les erreurs
+          echo "Fetching data from GitHub API..."
           curl -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/user/repos?per_page=100&type=public -o repos.json --fail --silent --show-error
 
-          # Vérifier si le fichier JSON a été correctement rempli
+          echo "Checking if repos.json has data..."
           if [ -s repos.json ]; then
-            echo "Les données du fichier repos.json ont été correctement récupérées."
+            echo "repos.json contains data."
           else
-            echo "Erreur : La récupération des données a échoué ou le fichier est vide."
-            exit 1  # Arrêter l'exécution si la récupération échoue
+            echo "Error: repos.json is empty."
+            exit 1
           fi
 
-          echo "Contenu de repos.json après récupération des données :"
+          echo "Content of repos.json:"
           cat repos.json
 
       # Ajouter un timestamp correctement sans écraser le fichier
