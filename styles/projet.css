@@ -3,29 +3,26 @@
     width: 90%;
     height: 100%;
     margin: 0 auto;
-    overflow: hidden;
     display: flex;
     align-items: center;
 }
 
 .carousel {
     display: flex;
+    align-items: center;
     transition: transform 0.5s ease-in-out;
-    transform-style: preserve-3d;
 }
 
 .carousel-item {
-    height: 20vw;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
     transform: scale(0.8);
-    transition: transform 0.5s ease-in-out, margin 0.5s ease-in-out;
+    transition: transform 0.5s ease-in-out;
     opacity: 0.6;
+    margin: 0 2vw;
 }
 
 .carousel-item.active {
     transform: scale(1.2);
     opacity: 1;
-    margin: 0 4vw;
 }
 
 .prev-btn, .next-btn {
@@ -35,7 +32,7 @@
     background-color: #333;
     color: white;
     border: none;
-    padding: 10px;
+    padding: 0.6vw;
     cursor: pointer;
     border-radius: 50%;
     z-index: 100;

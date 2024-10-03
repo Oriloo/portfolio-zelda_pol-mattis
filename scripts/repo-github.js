@@ -2,133 +2,65 @@
 async function fetchRepoData(repoUrl, repoCard) {
     try {
         const response = await fetch(repoUrl);
-        
+
         // Vérifier si la réponse est OK
         if (!response.ok) {
-            throw new Error('Erreur de récupération du dépôt');
+            throw new Error(`Erreur de récupération du dépôt. Statut : ${response.status} (${response.statusText})`);
         }
 
         const repoData = await response.json();
 
-        // Badge NEW
-        const newBadge = document.createElement('div');
-        newBadge.className = 'new-badge';
-        newBadge.textContent = 'NEW';
-        repoCard.appendChild(newBadge);
+        // Construire tout le contenu HTML en une seule fois
+        const htmlContent = `
+            <div class="repo-badge">REPO<div class="test90"></div></div>
+            <div class="repo-number">${repoData.id || 'Non Disponible'}</div>
+            <h2 class="repo-title">${repoData.name || 'Nom non disponible'}</h2>
+            <img class="repo-image" src="${repoData.owner.avatar_url || 'https://via.placeholder.com/100'}" alt="Avatar du propriétaire" />
+            <p class="repo-description">${repoData.description || 'Aucune description fournie.'}</p>
+            <div class="statistics">Statistiques</div>
+            <div class="repo-stats">
+                <div class="stat">
+                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="icon icon-star">
+                        <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z"></path>
+                    </svg>
+                    <span id="repo-stars">${repoData.stargazers_count || '0'}</span>
+                </div>
+                <div class="stat">
+                    <svg aria-hidden="true" height="16" viewBox="0 0 16 16" version="1.1" width="16" class="icon icon-fork">
+                        <path d="M5 5.372v.878c0 .414.336.75.75.75h4.5a.75.75 0 0 0 .75-.75v-.878a2.25 2.25 0 1 1 1.5 0v.878a2.25 2.25 0 0 1-2.25 2.25h-1.5v2.128a2.251 2.251 0 1 1-1.5 0V8.5h-1.5A2.25 2.25 0 0 1 3.5 6.25v-.878a2.25 2.25 0 1 1 1.5 0ZM5 3.25a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Zm6.75.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Zm-3 8.75a.75.75 0 1 0-1.5 0 .75.75 0 0 0 1.5 0Z"></path>
+                    </svg>
+                    <span id="repo-forks">${repoData.forks_count || '0'}</span>
+                </div>
+            </div>
+            <a class="repo-link" href="${repoData.html_url || ''}" target="_blank">Voir le dépôt</a>
+        `;
 
-        // Numéro du repo (vérifier que repoData.id existe)
-        if (repoData.id) {
-            const repoNumber = document.createElement('div');
-            repoNumber.className = 'repo-number';
-            repoNumber.textContent = `#${repoData.id}`;
-            repoCard.appendChild(repoNumber);
-        } else {
-            const repoNumber = document.createElement('div');
-            repoNumber.className = 'repo-number';
-            repoNumber.textContent = `#Non Disponible`;
-            repoCard.appendChild(repoNumber);
-        }
-
-        // Image du repo (vérifier que owner et avatar_url existent)
-        if (repoData.owner && repoData.owner.avatar_url) {
-            const repoImage = document.createElement('img');
-            repoImage.className = 'repo-image';
-            repoImage.src = repoData.owner.avatar_url;
-            repoCard.appendChild(repoImage);
-        }
-
-        // Titre du repo (vérifier que repoData.name existe)
-        if (repoData.name) {
-            const repoTitle = document.createElement('h2');
-            repoTitle.className = 'repo-title';
-            repoTitle.textContent = repoData.name;
-            repoCard.appendChild(repoTitle);
-        }
-
-        // Description du repo (vérifier que repoData.description existe)
-        if (repoData.description) {
-            const repoDescription = document.createElement('p');
-            repoDescription.className = 'repo-description';
-            repoDescription.textContent = repoData.description;
-            repoCard.appendChild(repoDescription);
-        }
-
-        // Section des statistiques (Ingrédients)
-        const ingredients = document.createElement('div');
-        ingredients.className = 'ingredients';
-        ingredients.textContent = 'Statistics';
-        repoCard.appendChild(ingredients);
-
-        // Statistiques
-        const repoStats = document.createElement('div');
-        repoStats.className = 'repo-stats';
-
-        // Stars Stat (vérifier que stargazers_count existe)
-        if (typeof repoData.stargazers_count === 'number') {
-            const starsStat = document.createElement('div');
-            starsStat.className = 'stat';
-            const starsIcon = document.createElement('img');
-            starsIcon.src = 'https://img.icons8.com/ios-filled/50/000000/star--v1.png';
-            starsStat.appendChild(starsIcon);
-            const starsText = document.createElement('span');
-            starsText.id = 'repo-stars';
-            starsText.textContent = repoData.stargazers_count;
-            starsStat.appendChild(starsText);
-            repoStats.appendChild(starsStat);
-        }
-
-        // Forks Stat (vérifier que forks_count existe)
-        if (typeof repoData.forks_count === 'number') {
-            const forksStat = document.createElement('div');
-            forksStat.className = 'stat';
-            const forksIcon = document.createElement('img');
-            forksIcon.src = 'https://img.icons8.com/material-rounded/24/000000/fork.png';
-            forksStat.appendChild(forksIcon);
-            const forksText = document.createElement('span');
-            forksText.id = 'repo-forks';
-            forksText.textContent = repoData.forks_count;
-            forksStat.appendChild(forksText);
-            repoStats.appendChild(forksStat);
-        }
-
-        // Ajouter les statistiques à la carte
-        repoCard.appendChild(repoStats);
-
-        // Lien vers le repo
-        const repoLink = document.createElement('a');
-        repoLink.className = 'repo-link';
-        repoLink.href = repoData.html_url;
-        repoLink.textContent = 'View Repo';
-        repoCard.appendChild(repoLink);
+        // Injecter le contenu HTML dans la carte
+        repoCard.innerHTML = htmlContent;
 
     } catch (error) {
-        console.error('Erreur lors de la récupération des données du dépôt :', error);
-        
         // Afficher un message d'erreur dans la carte si l'API échoue
-        const errorMessage = document.createElement('p');
-        errorMessage.className = 'error-message';
-        errorMessage.textContent = 'Impossible de charger les informations du dépôt.';
-        repoCard.appendChild(errorMessage);
+        console.error('Erreur lors de la récupération des données du dépôt :', error);
+        repoCard.innerHTML = `<p class="error-message">Impossible de charger les informations du dépôt.</p>`;
     }
 }
 
 // Fonction pour initialiser plusieurs cartes
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
     const repoCards = document.querySelectorAll('.repo-card');
 
     repoCards.forEach(repoCard => {
-        const repoUrl = repoCard.getAttribute('value');
-        
+        const repoUrl = repoCard.getAttribute('data-url');
+
         // Vérification si l'URL est correcte
         if (repoUrl) {
             // Passer l'URL de l'API GitHub et la carte correspondante
             fetchRepoData(repoUrl, repoCard);
         } else {
             // Si l'URL est incorrecte ou manquante, afficher un message d'erreur
-            const errorMessage = document.createElement('p');
-            errorMessage.className = 'error-message';
-            errorMessage.textContent = 'URL du dépôt manquante ou invalide.';
-            repoCard.appendChild(errorMessage);
+            repoCard.innerHTML = `
+                <p class="error-message">URL du dépôt manquante ou invalide.</p>
+            `;
         }
     });
 });
