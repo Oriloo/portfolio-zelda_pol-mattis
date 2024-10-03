@@ -9,11 +9,6 @@ on:
 jobs:
   update-repo-data:
     runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          node-version: '20' # Forcer l'utilisation de Node.js 20
 
     steps:
       # Étape 1: Cloner le dépôt
