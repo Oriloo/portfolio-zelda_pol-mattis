@@ -44,7 +44,7 @@ jobs:
           # Lire le contenu actuel du fichier JSON
           current_content=$(cat repos.json)
           # Ajouter le timestamp au contenu existant
-          echo "${current_content}" | jq '. + {"last_updated": "'$(date)'"}' > repos.json
+          echo "${current_content}" | jq --arg date "$(date)" '. + {"last_updated": $date}' > repos.json
           echo "Contenu de repos.json après ajout du timestamp :"
           cat repos.json
 
