@@ -2,7 +2,7 @@ name: Update Repository Data
 
 on:
   schedule:
-    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris
+    - cron: '0 0 * * *'  # Exécution tous les jours à 0h00 UTC
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
@@ -22,13 +22,14 @@ jobs:
         run: |
           curl -H "Authorization: token ${{ secrets.PAT_GITHUB }}" https://api.github.com/rate_limit
 
-      # Étape 3: Récupérer les données et écrire dans repos.json
+      # Étape 3: Récupérer les données et écrire dans repos.json avec tee
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public > repos.json
+            https://api.github.com/user/repos?per_page=100&type=public | tee repos.json
+          sleep 2  # Pause pour s'assurer que tout est bien écrit
           ls -l repos.json  # Vérifier que le fichier est bien créé
           cat repos.json    # Afficher le contenu
 
