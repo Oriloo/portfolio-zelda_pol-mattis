@@ -38,10 +38,13 @@ jobs:
           echo "Contenu de repos.json après récupération des données :"
           cat repos.json  # Vérifier que les données des dépôts sont bien récupérées
 
-      # Ajouter un timestamp après avoir vérifié que les données sont correctes
+      # Ajouter un timestamp correctement sans écraser le fichier
       - name: Add timestamp to repos.json
         run: |
-          echo "Dernière mise à jour: $(date)" >> repos.json
+          # Lire le contenu actuel du fichier JSON
+          current_content=$(cat repos.json)
+          # Ajouter le timestamp au contenu existant
+          echo "${current_content}" | jq '. + {"last_updated": "'$(date)'"}' > repos.json
           echo "Contenu de repos.json après ajout du timestamp :"
           cat repos.json
 
