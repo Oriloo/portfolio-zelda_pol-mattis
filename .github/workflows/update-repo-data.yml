@@ -16,17 +16,19 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v3
 
-      # Étape 2: Récupérer la liste de tous les dépôts de l'utilisateur
+      # Étape 2: Vérifier le quota de l'API
+      - name: Check API rate limit
+        run: |
+          curl -H "Authorization: token $GITHUB_TOKEN" https://api.github.com/rate_limit
+
+      # Étape 3: Tester la récupération des données de l'API
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
+          # Afficher la réponse brute de l'API GitHub
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public > repos.json
-
-      # Étape 3: Afficher le contenu de repos.json
-      - name: Afficher le contenu de repos.json
-        run: cat repos.json
+            https://api.github.com/user/repos?per_page=100&type=public
 
       # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
