@@ -3,13 +3,12 @@ name: Update Repository Data
 # Ce workflow s'exécute à une heure régulière et peut aussi être déclenché manuellement
 on:
   schedule:
-    - cron: '50 19 * * *' # Exécution tous les jours à 20h42 heure de Paris en été
-  workflow_dispatch: # Permet de déclencher manuellement le workflow
+    - cron: '50 19 * * *'  # Exécution tous les jours à 20h50 heure de Paris en été
+  workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 jobs:
   update-repo-data:
     runs-on: ubuntu-latest
-
     steps:
       # Étape 1: Cloner le dépôt
       - name: Checkout repository
@@ -18,7 +17,7 @@ jobs:
       # Étape 2: Récupérer la liste de tous les dépôts de l'utilisateur
       - name: Fetch repository data
         env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }} # Utilise le token GitHub Actions pour authentifier l'API
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Utilise le token GitHub Actions pour authentifier l'API
         run: |
           # Obtenir les informations de tous les dépôts publics et privés
           curl -H "Authorization: token $GITHUB_TOKEN" \
@@ -28,11 +27,11 @@ jobs:
       - name: Vérifier les fichiers générés
         run: ls -alh
 
-      # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflow'
+      # Étape 4: Ajouter le fichier JSON au dépôt et le committer sur la branche 'test-workflows'
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           git add repos.json
           git commit -m "Mise à jour des données des dépôts"
-          git push origin test-workflow
+          git push origin test-workflows  # Correction avec "s"
