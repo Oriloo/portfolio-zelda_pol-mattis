@@ -37,11 +37,11 @@ jobs:
           echo "Dernière mise à jour: $(date)" >> $GITHUB_WORKSPACE/repos.json
           cat $GITHUB_WORKSPACE/repos.json
 
-      # Étape 5: Vérifier les changements détectés par Git
-      - name: Vérifier les changements détectés par Git
+      # Étape 5: Réinitialiser l'index Git
+      - name: Réinitialiser l'index Git
         run: |
-          git status
-          git diff repos.json
+          cd $GITHUB_WORKSPACE
+          git reset
 
       # Étape 6: Commit et push des données
       - name: Commit repository data
@@ -49,10 +49,6 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           cd $GITHUB_WORKSPACE
-          git add repos.json  # Forcer l'ajout du fichier modifié
+          git add $GITHUB_WORKSPACE/repos.json  # Utiliser le chemin absolu
           git commit -m "Mise à jour des données des dépôts"
           git push origin test-workflows
-
-      # Étape 7: Vérifier l'index de Git après `git add`
-      - name: Vérifier l'index de Git après `git add`
-        run: git status
