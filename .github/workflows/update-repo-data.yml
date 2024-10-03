@@ -31,12 +31,18 @@ jobs:
           ls -lh $GITHUB_WORKSPACE/repos.json
           cat $GITHUB_WORKSPACE/repos.json
 
-      # Étape 4: Commit et push des données
+      # Étape 4: Vérifier repos.json avant le commit
+      - name: Vérifier repos.json avant le commit
+        run: |
+          ls -lh $GITHUB_WORKSPACE/repos.json
+          cat $GITHUB_WORKSPACE/repos.json
+
+      # Étape 5: Commit et push des données (avec ajout forcé)
       - name: Commit repository data
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           cd $GITHUB_WORKSPACE
-          git add repos.json
+          git add -f repos.json  # Forcer l'ajout du fichier
           git commit -m "Mise à jour des données des dépôts"
           git push origin test-workflows
