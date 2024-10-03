@@ -6,9 +6,8 @@ on:
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 permissions:
-  contents: read
-  contents: write
-  issues: read
+  contents: write  # Donne au GITHUB_TOKEN les permissions d'écriture
+  issues: read     # Donne accès aux issues du dépôt (si besoin)
 
 jobs:
   update-repo-data:
