@@ -3,12 +3,17 @@ name: Update Repository Data
 # Ce workflow s'exécute à une heure régulière et peut aussi être déclenché manuellement
 on:
   schedule:
-    - cron: '30 19 * * *'  # Exécution tous les jours à 20h42 heure de Paris en été
-  workflow_dispatch:  # Permet de déclencher manuellement le workflow
+    - cron: '50 19 * * *' # Exécution tous les jours à 20h42 heure de Paris en été
+  workflow_dispatch: # Permet de déclencher manuellement le workflow
 
 jobs:
   update-repo-data:
     runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        with:
+          node-version: '20' # Forcer l'utilisation de Node.js 20
 
     steps:
       # Étape 1: Cloner le dépôt
@@ -22,7 +27,7 @@ jobs:
         run: |
           # Obtenir les informations de tous les dépôts publics et privés
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100 > repos.json
+            https://api.github.com/user/repos?per_page=100&type=public > repos.json
 
       # Étape 3: Vérifier si le fichier JSON est bien généré
       - name: Vérifier les fichiers générés
@@ -33,7 +38,6 @@ jobs:
         run: |
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
-          git checkout test-workflow  # Assure-toi d'être sur la bonne branche
           git add repos.json
           git commit -m "Mise à jour des données des dépôts"
           git push origin test-workflow
