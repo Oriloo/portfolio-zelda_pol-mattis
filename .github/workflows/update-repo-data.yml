@@ -3,7 +3,7 @@ name: Update Repository Data
 # Ce workflow s'exécutera à une heure régulière et peut aussi être déclenché manuellement
 on:
   schedule:
-    - cron: '45 18 * * *'  # Exécution tous les jours à 18h42 UTC (soit 20h42 heure de Paris en été)
+    - cron: '48 18 * * *'  # Exécution tous les jours à 18h42 UTC (soit 20h42 heure de Paris en été)
   workflow_dispatch:  # Permet de déclencher manuellement le workflow
 
 jobs:
