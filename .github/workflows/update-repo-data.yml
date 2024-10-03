@@ -28,7 +28,15 @@ jobs:
             git checkout -b test-workflows
           fi
 
-      # Récupération des données des dépôts GitHub
+      - name: Check if curl is installed
+        run: |
+          if ! command -v curl &> /dev/null; then
+            echo "curl n'est pas installé. Installation de curl..."
+            sudo apt-get update && sudo apt-get install -y curl
+          else
+            echo "curl est déjà installé."
+          fi
+
       - name: Fetch repository data
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
