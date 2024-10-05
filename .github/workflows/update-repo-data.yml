@@ -2,90 +2,67 @@ name: Update Repository Data
 
 on:
   schedule:
-    - cron: '0 0 * * *'  # Exécution tous les jours à 0h00 UTC
-  workflow_dispatch:  # Permet de déclencher manuellement le workflow
-
-permissions:
-  contents: write  # Donne au PAT les permissions d'écriture
-  issues: read     # Donne accès aux issues du dépôt (si besoin)
+    - cron: '0 0 * * *'
+  workflow_dispatch:
 
 jobs:
   update-repo-data:
     runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v3
-        with:
-          token: ${{ secrets.PAT_GITHUB }}  # Utilisation du PAT pour les opérations Git
-          fetch-depth: 0
+    - name: Checkout repository
+      uses: actions/checkout@v3
 
-      - name: Switch to 'test-workflows' branch
-        run: |
-          git fetch origin
-          git checkout test-workflows
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: '3.x'
 
-      - name: Debug environment and check required tools
-        run: |
-          set -e
-          echo "Checking if curl is available..."
-          if ! command -v curl &> /dev/null; then
-            echo "curl is not installed. Installing curl..."
-            sudo apt-get update && sudo apt-get install -y curl
-          else
-            echo "curl is installed."
-          fi
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install requests
 
-          echo "Checking if jq is available..."
-          if ! command -v jq &> /dev/null; then
-            echo "jq is not installed. Installing jq..."
-            sudo apt-get update && sudo apt-get install -y jq
-          else
-            echo "jq is installed."
-          fi
+    - name: Get repository data
+      env:
+        GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
+      run: |
+        import requests
+        import json
 
-          echo "Environment check complete. Continuing with the workflow."
+        token = '${{ secrets.PAT_GITHUB }}'
+        headers = {'Authorization': f'token {token}'}
 
-      - name: Fetch repository data
-        env:
-          GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
-        run: |
-          set -e
-          echo "Fetching data from GitHub API..."
-          curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public -o repos.json
+        repos = []
+        page = 1
 
-          echo "Checking if repos.json has data..."
-          if [ -s repos.json ]; then
-            echo "repos.json contains data."
-          else
-            echo "Error: repos.json is empty."
-            exit 1
-          fi
+        while True:
+            response = requests.get(f'https://api.github.com/user/repos?per_page=100&page={page}', headers=headers)
+            if response.status_code != 200:
+                raise Exception(f'Error fetching repos: {response.status_code} {response.text}')
+            data = response.json()
+            if not data:
+                break
 
-          echo "Content of repos.json:"
-          cat repos.json
+            for repo in data:
+                repos.append({
+                    'id': repo['id'],
+                    'name': repo['name'],
+                    'description': repo['description'],
+                    'stars': repo['stargazers_count'],
+                    'forks': repo['forks_count'],
+                    'watchers': repo['watchers_count']
+                })
 
-      # Ajouter un timestamp correctement sans écraser le fichier
-      - name: Add timestamp to repos.json
-        run: |
-          set -e
-          # Vérifier si le fichier JSON contient des données
-          if [ -s repos.json ]; then
-            echo "Le fichier repos.json contient des données, ajout du timestamp."
-            # Ajouter le timestamp au contenu existant
-            jq --arg date "$(date)" '. + {"last_updated": $date}' repos.json > temp_repos.json && mv temp_repos.json repos.json
-          else
-            echo "Erreur : Le fichier repos.json est vide. Aucune donnée à mettre à jour."
-          fi
-          echo "Contenu de repos.json après ajout du timestamp :"
-          cat repos.json
+            page += 1
 
-      # Commit et push des changements
-      - name: Commit repository data
-        run: |
-          set -e
-          git config --global user.email "you@example.com"
-          git config --global user.name "GitHub Action Bot"
-          git add repos.json
-          git commit -m "Mise à jour des données des dépôts" || true
-          git push origin test-workflows || true
+        with open('donnees/repos.json', 'w') as f:
+            json.dump(repos, f, indent=2)
+
+    - name: Commit and push changes
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add donnees/repos.json
+        git commit -m 'Update repository data'
+        git push origin test-workflows
