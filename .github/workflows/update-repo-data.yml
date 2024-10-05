@@ -27,37 +27,40 @@ jobs:
       env:
         GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
       run: |
-        import requests
-        import json
+        python -c "
+import requests
+import json
+import os
 
-        token = '${{ secrets.PAT_GITHUB }}'
-        headers = {'Authorization': f'token {token}'}
+token = os.getenv('GITHUB_TOKEN')
+headers = {'Authorization': f'token {token}'}
 
-        repos = []
-        page = 1
+repos = []
+page = 1
 
-        while True:
-            response = requests.get(f'https://api.github.com/user/repos?per_page=100&page={page}', headers=headers)
-            if response.status_code != 200:
-                raise Exception(f'Error fetching repos: {response.status_code} {response.text}')
-            data = response.json()
-            if not data:
-                break
+while True:
+    response = requests.get(f'https://api.github.com/user/repos?per_page=100&page={page}', headers=headers)
+    if response.status_code != 200:
+        raise Exception(f'Error fetching repos: {response.status_code} {response.text}')
+    data = response.json()
+    if not data:
+        break
 
-            for repo in data:
-                repos.append({
-                    'id': repo['id'],
-                    'name': repo['name'],
-                    'description': repo['description'],
-                    'stars': repo['stargazers_count'],
-                    'forks': repo['forks_count'],
-                    'watchers': repo['watchers_count']
-                })
+    for repo in data:
+        repos.append({
+            'id': repo['id'],
+            'name': repo['name'],
+            'description': repo['description'],
+            'stars': repo['stargazers_count'],
+            'forks': repo['forks_count'],
+            'watchers': repo['watchers_count']
+        })
 
-            page += 1
+    page += 1
 
-        with open('donnees/repos.json', 'w') as f:
-            json.dump(repos, f, indent=2)
+with open('donnees/repos.json', 'w') as f:
+    json.dump(repos, f, indent=2)
+"
 
     - name: Commit and push changes
       run: |
