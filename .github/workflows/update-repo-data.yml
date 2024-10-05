@@ -31,29 +31,30 @@ jobs:
         import json
         import os
 
-        token = os.getenv('GITHUB_TOKEN')
-        headers = {'Authorization': f'Bearer {token}'}
-        repos_url = 'https://api.github.com/user/repos?per_page=100&type=public'
-        response = requests.get(repos_url, headers=headers)
+        if __name__ == "__main__":
+            token = os.getenv('GITHUB_TOKEN')
+            headers = {'Authorization': f'Bearer {token}'}
+            repos_url = 'https://api.github.com/user/repos?per_page=100&type=public'
+            response = requests.get(repos_url, headers=headers)
 
-        if response.status_code == 200:
-            repos = response.json()
-            repos_data = []
-            for repo in repos:
-                repos_data.append({
-                    'id': repo['id'],
-                    'name': repo['name'],
-                    'description': repo['description'],
-                    'stars': repo['stargazers_count'],
-                    'forks': repo['forks_count'],
-                    'watchers': repo['watchers_count']
-                })
+            if response.status_code == 200:
+                repos = response.json()
+                repos_data = []
+                for repo in repos:
+                    repos_data.append({
+                        'id': repo['id'],
+                        'name': repo['name'],
+                        'description': repo['description'],
+                        'stars': repo['stargazers_count'],
+                        'forks': repo['forks_count'],
+                        'watchers': repo['watchers_count']
+                    })
 
-            os.makedirs('donnees', exist_ok=True)
-            with open('donnees/repos.json', 'w') as f:
-                json.dump(repos_data, f, indent=2)
-        else:
-            raise Exception(f'Failed to fetch repositories: {response.status_code} {response.text}')
+                os.makedirs('donnees', exist_ok=True)
+                with open('donnees/repos.json', 'w') as f:
+                    json.dump(repos_data, f, indent=2)
+            else:
+                raise Exception(f'Failed to fetch repositories: {response.status_code} {response.text}')
 
     - name: Commit and push changes
       run: |
