@@ -19,14 +19,10 @@ jobs:
           token: ${{ secrets.PAT_GITHUB }}  # Utilisation du PAT pour les opérations Git
           fetch-depth: 0
 
-      - name: Create or switch to 'test-workflows' branch
+      - name: Switch to 'test-workflows' branch
         run: |
           git fetch origin
-          if git show-ref --verify --quiet refs/heads/test-workflows; then
-            git checkout test-workflows
-          else
-            git checkout -b test-workflows
-          fi
+          git checkout test-workflows
 
       - name: Debug environment and check required tools
         run: |
@@ -74,8 +70,7 @@ jobs:
           if [ -s repos.json ]; then
             echo "Le fichier repos.json contient des données, ajout du timestamp."
             # Ajouter le timestamp au contenu existant
-            current_content=$(cat repos.json)
-            echo "${current_content}" | jq --arg date "$(date)" '. + {"last_updated": $date}' > repos.json
+            jq --arg date "$(date)" '. + {"last_updated": $date}' repos.json > temp_repos.json && mv temp_repos.json repos.json
           else
             echo "Erreur : Le fichier repos.json est vide. Aucune donnée à mettre à jour."
           fi
@@ -88,5 +83,5 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           git add repos.json
-          git commit -m "Mise à jour des données des dépôts"
+          git commit -m "Mise à jour des données des dépôts" || echo "Aucun changement à committer."
           git push origin test-workflows
