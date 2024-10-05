@@ -32,7 +32,7 @@ jobs:
         import os
 
         token = os.getenv('GITHUB_TOKEN')
-        headers = {'Authorization': f'token {token}'}
+        headers = {'Authorization': f'Bearer {token}'}
         repos_url = 'https://api.github.com/user/repos?per_page=100&type=public'
         response = requests.get(repos_url, headers=headers)
 
@@ -49,6 +49,7 @@ jobs:
                     'watchers': repo['watchers_count']
                 })
 
+            os.makedirs('donnees', exist_ok=True)
             with open('donnees/repos.json', 'w') as f:
                 json.dump(repos_data, f, indent=2)
         else:
