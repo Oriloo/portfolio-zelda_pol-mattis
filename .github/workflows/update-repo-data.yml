@@ -52,7 +52,7 @@ jobs:
           set -e
           echo "Fetching data from GitHub API..."
           curl -H "Authorization: token $GITHUB_TOKEN" \
-            https://api.github.com/user/repos?per_page=100&type=public -o repos.json --fail --silent --show-error
+            https://api.github.com/user/repos?per_page=100&type=public -o repos.json
 
           echo "Checking if repos.json has data..."
           if [ -s repos.json ]; then
@@ -87,5 +87,5 @@ jobs:
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           git add repos.json
-          git commit -m "Mise à jour des données des dépôts" || echo "Aucun changement à committer."
-          git push origin test-workflows
+          git commit -m "Mise à jour des données des dépôts" || true
+          git push origin test-workflows || true
