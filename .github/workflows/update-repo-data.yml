@@ -26,6 +26,7 @@ jobs:
 
       - name: Debug environment and check required tools
         run: |
+          set -e
           echo "Checking if curl is available..."
           if ! command -v curl &> /dev/null; then
             echo "curl is not installed. Installing curl..."
@@ -48,6 +49,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.PAT_GITHUB }}
         run: |
+          set -e
           echo "Fetching data from GitHub API..."
           curl -H "Authorization: token $GITHUB_TOKEN" \
             https://api.github.com/user/repos?per_page=100&type=public -o repos.json --fail --silent --show-error
@@ -66,6 +68,7 @@ jobs:
       # Ajouter un timestamp correctement sans écraser le fichier
       - name: Add timestamp to repos.json
         run: |
+          set -e
           # Vérifier si le fichier JSON contient des données
           if [ -s repos.json ]; then
             echo "Le fichier repos.json contient des données, ajout du timestamp."
@@ -80,6 +83,7 @@ jobs:
       # Commit et push des changements
       - name: Commit repository data
         run: |
+          set -e
           git config --global user.email "you@example.com"
           git config --global user.name "GitHub Action Bot"
           git add repos.json
