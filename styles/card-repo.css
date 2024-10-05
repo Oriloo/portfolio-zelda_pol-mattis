@@ -1,75 +1,97 @@
-.repo-card {
-    width: 15vw;
-    height: 25vw;
-    background-color: #e5d5b0;
-    border-radius: 2vw;
-    padding: 3vw;
+.carousel-item {
+    transform: scale(0.9);
+    transition: transform 0.5s ease-in-out;
+    opacity: 0.8;
+    margin: 0 1vw;
+
+    padding: 0.5vw;
+    background-color: #ACA073;
+    border-radius: 3vw;
     box-shadow: 0px 0.25vw 0.8vw rgba(0, 0, 0, 0.2);
-    text-align: center;
-    position: relative;
     overflow: hidden;
+    position: relative;
+}
+
+.repo-card {
+    width: 22vw;
+    aspect-ratio: 6/8;
+    background-color: #ACA073;
+    padding: 1.5vw;
+    border-radius: 3vw;
+    text-align: center;
+    box-shadow: inset 0 0 0 2px #746422;
 
     .repo-badge {
         position: absolute;
         top: 0;
         left: 0;
-        transform: translate(-30%, 30%) rotate(-45deg);
-        background-color: #b94019;
+        z-index: 2;
+        transform: translate(-38%, 80%) rotate(-45deg);
+        background: linear-gradient(to right, #AA5000, #B56020);
         color: white;
         padding: 0.5vw 10vw;
-        height: 1.2vw;
-        font-size: 1vw;
+        height: 0.9vw;
         display: flex;
         align-items: center;
         justify-content: center;
-
-        position: absolute;
-        .test90 {
-            position: absolute;
-            top: -80%;
-            left: 50%;
-            height: 5vw;
-            width: 0.5vw;
-            background-color: #0000ff;
-        }
     }
 
     .repo-number {
-        font-size: 1vw;
-        color: #555;
-        margin-bottom: 0.8vw;
+        position: relative;
+        z-index: 2;
+        color: #746422;
     }
 
     .repo-title {
-        font-size: 2vw;
-        color: #333;
+        position: relative;
+        z-index: 2;
+        color: #554700;
         margin: 0.8vw 0;
-        font-weight: bold;
+        word-break: break-all;
     }
 
     .repo-image {
-        width: 6.2vw;
-        height: 6.2vw;
+        position: relative;
+        z-index: 1;
+        width: 7.2vw;
+        height: 7.2vw;
         object-fit: cover;
         margin: 0.8vw auto;
         border-radius: 0.8vw;
-        border: 1px solid #333;
-        box-sizing: border-box;
+        box-shadow: 0 0 3vw 3vw rgb(200, 185, 135);
     }
 
     .repo-description {
-        font-size: 1vw;
-        color: #333;
+        position: relative;
+        z-index: 2;
+        color: #746422;
+        padding: 0 1vw;
+        text-align: left;
         margin-bottom: 15px;
     }
 
     .statistics {
-        font-weight: bold;
-        margin: 0.9vw 0;
-        font-size: 1.2vw;
+        position: relative;
+        z-index: 2;
+        color: #746422;
+        margin: 1.2vw 0;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+
+        &:before, &:after {
+            content: "";
+            flex: 1;
+            border-bottom: 2px solid #746422;
+            margin: 0 1vw;
+            height: 0;
+        }
     }
 
     .repo-stats {
+        position: relative;
+        z-index: 2;
         display: flex;
         justify-content: center;
         gap: 1vw;
@@ -77,34 +99,40 @@
         .stat {
             display: flex;
             align-items: center;
-            margin-bottom: 0.25vw;
+            padding: 0 2.8vw;
 
-            .icon {
-                fill: currentColor;
-                vertical-align: middle;
-                margin-right: 0.25vw;
-                width: 0.8vw;
-                height: 0.8vw;
+            img {
+                height: 4vw;
             }
 
             span {
-                font-size: 0.7vw;
-            } 
+                padding-left: 1vw;
+                color: #746422;
+            }
         }
     }
 
     .repo-link {
-        display: inline-block;
-        margin-top: 20px;
-        background-color: #0366d6;
-        color: white;
-        padding: 10px 15px;
-        border-radius: 5px;
+        position: absolute;
+        bottom: 8%;
+        left: 50%;
+        transform: translateX(-50%);
+        background: radial-gradient(circle, #67581C, #8E8154);
+        height: 2vw;
+        aspect-ratio: 600/55;
         text-decoration: none;
-        font-weight: bold;
+        -webkit-mask-image: url('../images/masque-card-boutton.png');
+        -webkit-mask-size: cover;
+        -webkit-mask-repeat: no-repeat;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+        transition: transform 0.3s ease-in-out;
 
         &:hover {
-            background-color: #024ea1;
+            background: radial-gradient(circle, #67581C, #7E703D);
+            transform: translateX(-50%) scale(1.1);
         }
     }
 }

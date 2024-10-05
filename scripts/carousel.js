@@ -4,7 +4,7 @@ const prevBtn = document.querySelector('.prev-btn');
 const nextBtn = document.querySelector('.next-btn');
 
 let currentIndex = 1; // Commencez avec la 2ème carte comme carte centrale
-const itemWidth = (window.innerWidth)/100 * 25; // Largeur de l'élément (25vw)
+const itemWidth = (window.innerWidth)/100 * 28; // Largeur de l'élément (25vw)
 
 function updateCarousel() {
     const containerWidth = document.querySelector('.carousel-container').offsetWidth;

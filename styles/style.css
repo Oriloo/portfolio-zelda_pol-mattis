@@ -128,11 +128,13 @@ html, body {
 	position: absolute;
 	left: 50%;
 	transform: translate(-50%, -20%);
+	text-shadow: black 0.1em 0.1em 0.2em
 }
 .h-prenom {
 	position: absolute;
 	left: 50%;
 	transform: translate(-45%, 90%);
+	text-shadow: black 0.1em 0.1em 0.2em
 }
 
 /** Menu **/
@@ -146,7 +148,6 @@ html, body {
 	width: 18vw;
 	height: 5vw;
 	margin: 0vw;
-	div { cursor: pointer; }
 	.txt-sheikah { display: none; }
 
 	display: flex;
@@ -160,6 +161,10 @@ html, body {
 		background-repeat: no-repeat;
 		background-position: center center;
 		.txt-sheikah { display: block; }
+	}
+	div {
+		cursor: pointer;
+		text-shadow: black 0.1em 0.1em 0.2em
 	}
 }
 
@@ -228,6 +233,10 @@ html, body {
 	height: 0.1vw;
 	margin: 0.5vw 0;
 }
+
+
+
+
 
 
 

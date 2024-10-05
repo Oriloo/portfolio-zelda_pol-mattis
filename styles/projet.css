@@ -13,13 +13,6 @@
     transition: transform 0.5s ease-in-out;
 }
 
-.carousel-item {
-    transform: scale(0.8);
-    transition: transform 0.5s ease-in-out;
-    opacity: 0.6;
-    margin: 0 2vw;
-}
-
 .carousel-item.active {
     transform: scale(1.2);
     opacity: 1;
